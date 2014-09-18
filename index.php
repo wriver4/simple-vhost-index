@@ -1,53 +1,4 @@
-<?php
-opcache_reset();
-/*
-  $path = __DIR__;
-  $port = '81';
-
-  $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path,
-  RecursiveDirectoryIterator::SKIP_DOTS),
-  RecursiveIteratorIterator::LEAVES_ONLY);
-  $extensions = array(
-  "php",
-  "html");
-
-  echo '<ul>';
-
-  foreach ($iterator as $fileinfo)
-  {
-  if (in_array($fileinfo->getExtension(), $extensions))
-  {
-  $extension = $fileinfo->getExtension();
-  $filename = $fileinfo->getBasename($extension);
-  $host = $_SERVER['SERVER_NAME'];
-  if ($filename === "index.")
-  {
-  $file = $fileinfo->getPathname();
-  $path_parts = pathinfo($file);
-  $drsplit = explode('/', $_SERVER['DOCUMENT_ROOT']);
-  $splitpp = explode(DIRECTORY_SEPARATOR, $path_parts['dirname']);
-  $endsplitpp = end($splitpp);
-  $arraydiff = array_diff($splitpp, $drsplit);
-  $implode = implode('/', $arraydiff);
-  $href = $host . ':' . $port . '/' . $implode;
-  echo '<li><a href = "//' . $href . '">' . $endsplitpp . '</a></li>';
-  }
-  }
-  }
-  echo '</ul>';
- */
-include'dirlinks/DirectoryLinks.php';
-$list = new DirectoryLinks;
-$links = $list->link($path = __DIR__,
-        $extensions = ['php',
-    'html',
-    'htm'], $port = '81',
-        $ignores = ['css',
-    'js',
-    'fonts',
-    'img',
-    'images']);
-?>
+<?php //opcache_reset();?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -57,51 +8,42 @@ $links = $list->link($path = __DIR__,
         <meta name="description" content="" />
         <meta name="author" content="Mark" />
         <meta name="viewport" content="width=device-width; initial-scale=1.0" />
-        <link rel="stylesheet" type="text/css" href="index/css/style.css" />
-        <link rel="shortcut icon" href="index/img/favicon.png" />
-        <script src="index/js/jquery-2.0.3.min.js"></script>
-        <script src="index/js/jquery.quick.pagination.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="http://local:81/dirlinks/css/style.css" />
+        <link rel="shortcut icon" href="http://local:81/dirlinks/img/favicon.png" />
+        <script src="http://local:81/dirlinks/js/jquery-2.0.3.min.js"></script>
+        <script src="http://local:81/dirlinks/js/jquery.quick.pagination.min.js"></script>
     </head>
     <body>
         <div id="wrap">
             <div id="header">
-                <h1><?php
-                    echo ucfirst($_SERVER['SERVER_NAME']);
-                    ?> list of sub domains by name</h1>
+                <h1><?php echo ucfirst($_SERVER['SERVER_NAME']);?> list of sub domains by name</h1>
             </div>
             <div id="main">
                 <div id="content" >
                     <ul class="pagination">
                         <?php
-                        /* $dir = opendir(".");
-                          $files = array(
-                          );
-                          while (($file = readdir($dir)) !== false)
-                          {
-                          if ($file != "." and $file != ".." and $file != "index.php")
-                          {
-                          array_push($files, $file);
-                          }
-                          }
-                          closedir($dir);
-                          sort($files); */
-                        $i = 0;
-                        foreach ($links as $key => $value)
+                        $dir_iterator = new RecursiveDirectoryIterator(__DIR__,
+                                RecursiveDirectoryIterator::SKIP_DOTS);
+                        $directory_count = 0;
+                        foreach ($dir_iterator as $directory)
                         {
-                            $i = $i + 1;
-                            if ($i == 1)
+                            $directory = end(explode(DIRECTORY_SEPARATOR,
+                                            $directory));
+                            $directory_count = $directory_count + 1;
+                            if ($directory_count == 1)
                             {
                                 echo "<div class=\"container\"><div class=\"column-a\">";
                             }
-                            echo '<li><a href="//' . $key . '" target="_blank">' . $value . '</a></li>';
-                            if ($i == 12)
+                            echo "<li><a href='$directory' target=\"_blank\">$directory</a></li>";
+
+                            if ($directory_count == 12)
                             {
                                 echo "</div><div class=\"column-b\">";
                             }
-                            if ($i == 24)
+                            if ($directory_count == 24)
                             {
                                 echo "</div></div>";
-                                $i = 0;
+                                $directory_count = 0;
                             }
                         }
                         echo"</div></div>";
@@ -114,7 +56,7 @@ $links = $list->link($path = __DIR__,
             </div>
         </div>
         <script type="text/javascript">
-            $(document).ready(function(){
+            $(document).ready(function (){
                 $("ul.pagination").quickPagination({pageSize: "1"});
             });
         </script>

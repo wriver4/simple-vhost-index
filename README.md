@@ -10,9 +10,11 @@ The features I looked to implement are:
   4. make them links
   5. Use PHP iterator classes
   6. Be able to specify which port the host is on
+  
   Installation:
   1. Put dirlinks folder in xamppp folder in xampp folder
   2. Put dirlinks folder in htdocs
   3. Copy index.php in htdocs, in any vhost, or in any subdomain you want a list
+  
 This is a quick and dirty upgrade of my previous implementation.
 I will implement S-UI in the future. 

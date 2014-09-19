@@ -11,7 +11,7 @@ The features I looked to implement are:
   5. Use PHP iterator classes
   6. Be able to specify which port the host is on
   
-  Installation:
+Installation:
 
   1. Put dirlinks folder in xamppp folder in xampp folder
   2. Put dirlinks folder in htdocs

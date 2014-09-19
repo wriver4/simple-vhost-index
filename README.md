@@ -12,6 +12,7 @@ The features I looked to implement are:
   6. Be able to specify which port the host is on
   
   Installation:
+
   1. Put dirlinks folder in xamppp folder in xampp folder
   2. Put dirlinks folder in htdocs
   3. Copy index.php in htdocs, in any vhost, or in any subdomain you want a list
